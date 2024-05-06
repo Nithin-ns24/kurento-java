@@ -1,4 +1,4 @@
-name: Fix Sonar Issues with Pixeebot
+name: Fix Semgrep Issues with Pixeebot
 on:
   workflow_dispatch:
 
