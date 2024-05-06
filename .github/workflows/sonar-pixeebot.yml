@@ -1,18 +1,16 @@
 name: Fix Sonar Issues with Pixeebot
 on:
-  check_run:
-    types: [completed]
+  workflow_dispatch:
 
 permissions:
   id-token: write
 
 jobs:
   share:
-    name: Upload Sonar Results to Pixeebot
+    name: Upload Semgrep Results to Pixeebot
     runs-on: ubuntu-latest
-    if: ${{ github.event.check_run.name == 'SonarCloud Code Analysis' }}
     steps:
       - uses: pixee/upload-tool-results-action@v1
         with:
-          tool: sonar
-          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          tool: Semgrep
+          Semgrep-token: ${{ secrets.SEMGREP_APP_TOKEN }}
