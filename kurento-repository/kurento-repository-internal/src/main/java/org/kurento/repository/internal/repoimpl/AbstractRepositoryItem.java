@@ -40,12 +40,12 @@ public abstract class AbstractRepositoryItem implements RepositoryItem {
     this.attributes = attributes;
   }
 
-  @Override
+  
   public String getId() {
     return id;
   }
 
-  @Override
+  
   public State getState() {
     return state;
   }
@@ -57,7 +57,7 @@ public abstract class AbstractRepositoryItem implements RepositoryItem {
     }
   }
 
-  @Override
+  
   public RepositoryHttpPlayer createRepositoryHttpPlayer() {
     return repository.getRepositoryHttpManager().createRepositoryHttpPlayer(this);
   }
