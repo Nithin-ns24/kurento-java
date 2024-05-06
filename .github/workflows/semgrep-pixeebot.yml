@@ -12,5 +12,5 @@ jobs:
     steps:
       - uses: pixee/upload-tool-results-action@v1
         with:
-          tool: Semgrep
-          Semgrep-token: ${{ secrets.SEMGREP_APP_TOKEN }}
+          tool: semgrep
+          semgrep-token: ${{ secrets.SEMGREP_APP_TOKEN }}
