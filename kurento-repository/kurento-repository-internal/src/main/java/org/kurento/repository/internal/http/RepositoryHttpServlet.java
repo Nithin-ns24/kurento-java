@@ -17,6 +17,7 @@
 
 package org.kurento.repository.internal.http;
 
+import io.github.pixee.security.Newlines;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
@@ -642,8 +643,8 @@ public class RepositoryHttpServlet extends HttpServlet {
     if (!malformedRequest) {
 
       response.setHeader("Accept-Ranges", "bytes");
-      response.setHeader("ETag", attributes.getETag());
-      response.setHeader("Last-Modified", attributes.getLastModifiedHttp());
+      response.setHeader("ETag", Newlines.stripAll(attributes.getETag()));
+      response.setHeader("Last-Modified", Newlines.stripAll(attributes.getLastModifiedHttp()));
 
       ranges = parseRange(request, response, attributes);
     }
@@ -752,7 +753,7 @@ public class RepositoryHttpServlet extends HttpServlet {
       response.setContentLength((int) length);
     } else {
       // Set the content-length as String to be able to use a long
-      response.setHeader("content-length", "" + length);
+      response.setHeader("content-length", Newlines.stripAll("" + length));
     }
   }
 
@@ -1024,7 +1025,7 @@ public class RepositoryHttpServlet extends HttpServlet {
           // The entity has not been modified since the date
           // specified by the client. This is not an error case.
           response.setStatus(SC_NOT_MODIFIED);
-          response.setHeader("ETag", resourceAttributes.getETag());
+          response.setHeader("ETag", Newlines.stripAll(resourceAttributes.getETag()));
 
           return false;
         }
@@ -1081,7 +1082,7 @@ public class RepositoryHttpServlet extends HttpServlet {
         // back.
         if ("GET".equals(request.getMethod()) || "HEAD".equals(request.getMethod())) {
           response.setStatus(SC_NOT_MODIFIED);
-          response.setHeader("ETag", eTag);
+          response.setHeader("ETag", Newlines.stripAll(eTag));
 
           return false;
         }
