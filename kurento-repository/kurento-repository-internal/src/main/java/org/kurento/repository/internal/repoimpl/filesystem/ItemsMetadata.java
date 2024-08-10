@@ -17,6 +17,7 @@
 
 package org.kurento.repository.internal.repoimpl.filesystem;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -84,7 +85,7 @@ public class ItemsMetadata {
     try (FileReader metadataFile = new FileReader(itemsMetadataFile)) {
       try (BufferedReader br = new BufferedReader(metadataFile)) {
         String line;
-        while ((line = br.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
           sb.append(line).append("\n");
         }
       }
