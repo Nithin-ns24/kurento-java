@@ -18,6 +18,7 @@
 package org.kurento.test.docker;
 
 import static com.github.dockerjava.api.model.Capability.SYS_ADMIN;
+import io.github.pixee.security.BoundedLineReader;
 import static org.kurento.commons.PropertiesManager.getProperty;
 import static org.kurento.test.config.TestConfiguration.TEST_SELENIUM_TRANSPORT;
 
@@ -142,7 +143,7 @@ public class Docker implements Closeable {
           Files.newBufferedReader(Paths.get("/proc/1/cgroup"), StandardCharsets.UTF_8)) {
 
         String line = null;
-        while ((line = br.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
           if (line.contains("/docker")) {
             return true;
           }
@@ -573,7 +574,7 @@ public class Docker implements Closeable {
           Files.newBufferedReader(Paths.get("/proc/self/cgroup"), StandardCharsets.UTF_8);
 
       String line = null;
-      while ((line = br.readLine()) != null) {
+      while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
         log.debug(line);
         if (line.contains("docker")) {
           return line.substring(line.lastIndexOf('/') + 1, line.length());

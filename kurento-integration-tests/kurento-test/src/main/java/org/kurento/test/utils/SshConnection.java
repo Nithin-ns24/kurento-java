@@ -17,6 +17,7 @@
 
 package org.kurento.test.utils;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.kurento.commons.PropertiesManager.getProperty;
 import static org.kurento.test.config.TestConfiguration.TEST_NODE_LOGIN_PROPERTY;
 import static org.kurento.test.config.TestConfiguration.TEST_NODE_PASSWD_PROPERTY;
@@ -211,7 +212,7 @@ public class SshConnection {
     try {
       BufferedReader r = new BufferedReader(new InputStreamReader(process.getStdout(), "UTF-8"));
       String line = null;
-      while ((line = r.readLine()) != null) {
+      while ((line = BoundedLineReader.readLine(r, 5_000_000)) != null) {
         log.debug(line);
         sb.append(line).append("\r\n");
       }
