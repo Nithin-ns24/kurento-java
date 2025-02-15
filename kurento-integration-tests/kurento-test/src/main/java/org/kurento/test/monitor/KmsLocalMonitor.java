@@ -17,6 +17,7 @@
 
 package org.kurento.test.monitor;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,7 +71,7 @@ public class KmsLocalMonitor extends KmsMonitor {
         output = new ObjectOutputStream(socket.getOutputStream());
         input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        String message = input.readLine();
+        String message = BoundedLineReader.readLine(input, 5_000_000);
 
         if (message != null) {
           System.out.println("Message received " + message);
@@ -225,11 +226,11 @@ public class KmsLocalMonitor extends KmsMonitor {
     InputStreamReader is = new InputStreamReader(in);
     StringBuilder sb = new StringBuilder();
     BufferedReader br = new BufferedReader(is);
-    String read = br.readLine();
+    String read = BoundedLineReader.readLine(br, 5_000_000);
 
     while (read != null) {
       sb.append(read);
-      read = br.readLine();
+      read = BoundedLineReader.readLine(br, 5_000_000);
       sb.append('\n');
       sb.append(' ');
     }
