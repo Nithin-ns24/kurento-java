@@ -18,6 +18,7 @@
 
 package org.kurento.test.grid;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.kurento.commons.PropertiesManager.getProperty;
 import static org.kurento.test.config.TestConfiguration.SELENIUM_HUB_ADDRESS;
 import static org.kurento.test.config.TestConfiguration.SELENIUM_HUB_ADDRESS_DEFAULT;
@@ -577,7 +578,7 @@ public class GridHandler {
       br = new BufferedReader(new InputStreamReader(url.openStream()));
       String line = "";
       while (line != null) {
-        line = br.readLine();
+        line = BoundedLineReader.readLine(br, 5_000_000);
         contents.append(line);
       }
     } finally {
